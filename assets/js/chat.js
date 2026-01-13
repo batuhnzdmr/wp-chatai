@@ -1,45 +1,81 @@
-jQuery(document).ready(function($)
+document.addEventListener('DOMContentLoaded', function()
 {
-    // Chatbox aç/kapa düğmesi oluştur
-    $('body').append('<button id="chatai-toggle-btn">💬</button>');
-    $('body').append(`
-        <div id="chatai-widget">
-            <div id="chatai-widget-header">ChatAI</div>
-            <div id="chatai-widget-messages"></div>
-            <div id="chatai-widget-input">
-                <input type="text" id="chatai-input" placeholder="Mesajınızı yazın..."/>
-                <button id="chatai-send">Gönder</button>
-            </div>
-        </div>
-    `);
+    
+    // --- 1. Değişkenleri Tanımla ---
+    const chatButton = document.getElementById('toggle-chat-box');
+    const chatWindow = document.getElementById('chat-box');
+    const closeButton = document.querySelector('.chat-close-button');
+    const sendButton = document.getElementById('chat-submit-button');
+    const chatInput = document.getElementById('chat-input');
+    const messageArea = document.getElementById('chat-message-box');
 
-    // Aç/kapa
-    $('#chatai-toggle-btn, #chatai-widget-header').on('click', function()
-    {
-        $('#chatai-widget').toggle();
-    });
+    // --- 2. Açma / Kapama Fonksiyonu ---
+    function toggleChat() {
+        if (chatWindow.style.display === 'flex') {
+            chatWindow.style.display = 'none';
+            chatButton.style.display = 'flex';
+        } else {
+            chatWindow.style.display = 'flex';
+            chatButton.style.display = 'none';
+        }
+    }
 
-    // Mesaj gönderme
-    $('#chatai-send').on('click', function()
-    {
-        let msg = $('#chatai-input').val();
-        if(msg.trim() === '') return;
+    // Olay Dinleyicileri (Click Events)
+    chatButton.addEventListener('click', toggleChat);
+    closeButton.addEventListener('click', toggleChat);
 
-        $('#chatai-widget-messages').append('<div><b>Sen:</b> '+msg+'</div>');
-        $('#chatai-input').val('');
+    // --- 3. Mesaj Gönderme Fonksiyonu (SENİN MANTIĞIN BURADA) ---
+    function sendMessage() {
+        const messageText = chatInput.value.trim();
+        
+        if (messageText === "") return;
 
-        // API çağrısı (şimdilik test endpoint)
-        fetch('/wp-json/chatai/v1/test')
-            .then(res => res.json())
+        // A) Kullanıcının mesajını ekrana bas
+        addMessageToUI(messageText, 'user-message');
+        
+        // Inputu temizle
+        chatInput.value = "";
+        scrollToBottom();
+
+        // B) Backend'e Bağlan (Senin Fetch Kodunun Vanilla JS Hali)
+        // Not: Gerçek senaryoda burası POST isteği olmalı ve mesajı göndermeli.
+        // Şimdilik senin test endpoint'ine GET atıyoruz.
+        
+        fetch('/wp-json/chatai/v1/test') 
+            .then(response => response.json())
             .then(data => {
-                $('#chatai-widget-messages').append('<div><b>ChatAI:</b> '+data.message+'</div>');
-                $('#chatai-widget-messages').scrollTop($('#chatai-widget-messages')[0].scrollHeight);
+                // API'den gelen cevabı ekrana bas
+                addMessageToUI(data.message, 'bot-message');
+                scrollToBottom();
+            })
+            .catch(error => {
+                console.error('Hata:', error);
+                addMessageToUI("Bir hata oluştu, bağlantı kurulamadı.", 'bot-message');
             });
+    }
+
+    // --- 4. Yardımcı Fonksiyonlar ---
+    
+    // Ekrana mesaj kutusu ekler
+    function addMessageToUI(text, className) {
+        const msgDiv = document.createElement('div');
+        msgDiv.className = `message ${className}`;
+        msgDiv.innerText = text; // Güvenlik için innerHTML yerine innerText
+        messageArea.appendChild(msgDiv);
+    }
+
+    // Sohbeti en aşağı kaydırır
+    function scrollToBottom() {
+        messageArea.scrollTop = messageArea.scrollHeight;
+    }
+
+    // --- 5. Tıklama ve Enter Tuşu Tanımları ---
+    sendButton.addEventListener('click', sendMessage);
+
+    chatInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            sendMessage();
+        }
     });
 
-    // Enter tuşu ile gönder
-    $('#chatai-input').keypress(function(e)
-    {
-        if(e.which == 13) $('#chatai-send').click();
-    });
 });
