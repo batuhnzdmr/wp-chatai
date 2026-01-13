@@ -1,0 +1,64 @@
+/* ChatAI widget stili */
+#chatai-widget {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 300px;
+    height: 400px;
+    background: #fff;
+    border: 1px solid #ccc;
+    display: none; /* Başlangıçta kapalı */
+    flex-direction: column;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    z-index: 9999;
+    border-radius: 10px;
+    overflow: hidden;
+    font-family: Arial, sans-serif;
+}
+
+#chatai-widget-header {
+    background: #0073aa;
+    color: #fff;
+    padding: 10px;
+    cursor: pointer;
+    text-align: center;
+}
+
+#chatai-widget-messages {
+    flex: 1;
+    padding: 10px;
+    overflow-y: auto;
+}
+
+#chatai-widget-input {
+    display: flex;
+    border-top: 1px solid #ccc;
+}
+
+#chatai-widget-input input {
+    flex: 1;
+    padding: 8px;
+    border: none;
+}
+
+#chatai-widget-input button {
+    background: #0073aa;
+    color: #fff;
+    border: none;
+    padding: 0 15px;
+    cursor: pointer;
+}
+
+#chatai-toggle-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #0073aa;
+    color: #fff;
+    border: none;
+    padding: 12px 15px;
+    cursor: pointer;
+    border-radius: 50%;
+    font-size: 18px;
+    z-index: 9998;
+}
