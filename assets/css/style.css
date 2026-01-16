@@ -1,15 +1,20 @@
-/* Font */
-.ozel-chat-wrapper { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+/* Variables */
+:root {
+    --color-main: #EF4A45;
+    --color-dark: #1A1A1A;
+    --color-gray: #f3f4f6;
+    --color-white: #ffffff;
+}
 
-/* Açma Butonu (Launcher) */
+/* Toggle Chat Button */
 #toggle-chat-box {
     position: fixed;
     bottom: 20px;
     right: 20px;
     width: 60px;
     height: 60px;
-    background: #EF4A45; /* Şirket Rengi: Mavi */
-    color: #FFFFFF;
+    background: var(--color-main);
+    color: var(--color-white);
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -19,19 +24,19 @@
     box-shadow: 0 4px 12px rgba(0,0,0,0.3);
     z-index: 10000;
     transition: all 0.3s;
-    }
+}
 #toggle-chat-box:hover { transform: scale(1.1); }
 
-/* Chat Penceresi Ana Kutu */
+/* Chat Box */
 #chat-box {
-    display: none; /* Başlangıçta gizli */
+    display: none;
     position: fixed;
     bottom: 90px;
     right: 20px;
     width: 350px;
     height: 500px;
-    max-height: 80vh; /* Mobilde taşmasın */
-    background: #FFFFFF;
+    max-height: 80vh;
+    background: var(--color-white);
     border-radius: 12px;
     box-shadow: 0 5px 20px rgba(0,0,0,0.15);
     z-index: 10000;
@@ -40,57 +45,112 @@
     border: 1px solid #e5e7eb;
 }
 
-/* Başlık Kısmı (Header) */
+/* Chat Header */
 .chat-header {
-    background: #EF4A45;
-    color: #FFFFFF;
+    background: var(--color-main);
+    color: var(--color-white);
     padding: 15px;
     display: flex;
     align-items: center;
     justify-content: space-between;
 }
-.chat-header h3 { margin: 0; font-size: 16px; font-weight: 600; }
-.chat-close-button { cursor: pointer; font-size: 18px; }
+.chat-header h3 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+}
+.chat-close-button {
+    cursor: pointer;
+    font-size: 18px;
+}
 
-/* Mesajların Aktığı Alan (Body) */
+/* Lead Form */
+#chat-lead-form {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    height: 100%;
+    justify-content: center;
+    background: var(--color-white);
+}
+#chat-lead-form input {
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    outline: none;
+}
+#chat-start-button {
+    padding: 12px;
+    background: var(--color-dark);
+    color: var(--color-white);
+    border: none;
+    border-radius:8px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+/* Chat Message Wrapper */
+#chat-message-wrapper {
+    position: relative;
+    flex: 1;
+    display: flex;
+    overflow: hidden;
+}
+
+/* Chat Message Box */
 #chat-message-box {
     flex: 1;
     padding: 15px;
     overflow-y: auto;
-    background: #f9fafb;
+    background: var(--color-white);
     display: flex;
     flex-direction: column;
     gap: 10px;
 }
 
-/* Mesaj Balonları */
-.message {
-    max-width: 80%;
-    padding: 10px 14px;
-    border-radius: 10px;
-    font-size: 14px;
-    line-height: 1.4;
+/* Chat Scroll Bottom Button */
+#chat-scroll-down-button {
+    position: absolute;
+    bottom: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--color-white);
+    color: var(--color-main);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 50;
+    transition: opacity 0.3s;
 }
-/* Botun Mesajı */
-.bot-message {
-    align-self: flex-start;
-    background: #e5e7eb;
-    color: #1A1A1A;
-    border-bottom-left-radius: 0;
-}
-/* Kullanıcının Mesajı */
-.user-message {
-    align-self: flex-end;
-    background: #e5e7eb;
-    color: #1A1A1A;
-    border-bottom-right-radius: 0;
+#chat-scroll-down-button.hidden {
+    opacity: 0;
+    pointer-events: none;
 }
 
-/* Alt Kısım: Input ve Gönder Butonu */
+/* New Message Badge */
+#chat-new-message-badge {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 10px;
+    height: 10px;
+    background: red;
+    border-radius: 50%;
+    display: none;
+    border: 2px solid var(--color-white);
+}
+
+/* Chat Box Footer */
 .chat-input-box {
     padding: 10px;
     border-top: 1px solid #6B7280;
-    background: #FFFFFF;
+    background: var(--color-white);
     display: flex;
     gap: 10px;
 }
@@ -103,8 +163,8 @@
     font-size: 14px;
 }
 #chat-submit-button {
-    background: #EF4A45;
-    color: #FFFFFF;
+    background: var(--color-main);
+    color: var(--color-white);
     border: none;
     width: 40px;
     height: 40px;
@@ -114,3 +174,73 @@
     align-items: center;
     justify-content: center;
 }
+
+
+
+/* Chat Messages */
+.message {
+    max-width: 80%;
+    padding: 10px 14px;
+    border-radius: 10px;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+/* Bot Messages */
+.bot-message {
+    align-self: flex-start;
+    background: var(--color-gray);
+    color: var(--color-dark);
+    border-bottom-left-radius: 0;
+}
+/* Kullanıcının Mesajı */
+.user-message {
+    align-self: flex-end;
+    background: var(--color-gray);
+    color: var(--color-dark);
+    border-bottom-right-radius: 0;
+}
+
+/* Message Row - Avatar */
+.message-row {
+    display: flex;
+    gap: 10px;
+    align-items: flex-end;
+}
+.message-row.user-row {
+    flex-direction: row-reverse; /*user balonu sağda*/
+}
+
+/* Avatar */
+.avatar {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background-size: cover;
+    background-position: center;
+    border: 1px solid var(--color-gray);
+    flex-shrink: 0;
+}
+
+/* Message Bubble */
+.message-bubble {
+    max-width: 80%;
+    padding: 10px 14px;
+    border-radius: 12px;
+    font-size: 14px;
+    line-height: 1.4;
+    position: relative;
+}
+.bot-row .message-bubble {
+    background: var(--color-gray);
+    color: var(--color-dark);
+    border-bottom-left-radius: 2px;
+}
+.user-row .message-bubble {
+    background: var(--color-gray);
+    color: var(--color-dark);
+    border-bottom-right-radius: 2px;
+}
+
+
+

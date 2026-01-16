@@ -51,14 +51,28 @@ function add_chat_box()
     <div id="chat-box" style="display: none;">
         <div class="chat-header">
             <h3>Canlı Sohbet</h3>
-            <span class="chat-close-button"><i class="fa-solid fa-xmark"></i></span>
-        </div>
-        
-        <div id="chat-message-box">
-            <div class="message bot-message">Merhaba! Size nasıl yardımcı olabiliriz?</div>
+            <span class="chat-close-button">
+                <i class="fa-solid fa-xmark"></i>
+            </span>
         </div>
 
-        <div class="chat-input-box">
+        <div id="chat-lead-form">
+            <p>Sohbete başlamadan önce lütfen kendinizi tanıtın.</p>
+            <input type="text" id="lead-name" placeholder="Adınız" required>
+            <input type="email" id="lead-email" placeholder="E-posta Adresiniz" required>
+            <input type="tel" id="lead-phone" placeholder="Telefon Numaranız">
+            <button id="chat-start-button">Sohbete Başla</button>
+        </div>
+
+        <div id="chat-message-wrapper" style="display: none;">
+            <div id="chat-message-box"></div>
+            <div id="chat-scroll-down-button" class="hidden">
+                <i class="fa-solid fa-arrow-down"></i>
+                <span id="chat-new-message-badge"></span>
+            </div>
+        </div>
+
+        <div class="chat-input-box" style="display: none;">
             <input type="text" id="chat-input" placeholder="Bir şeyler yaz...">
             <button id="chat-submit-button"><i class="fa-solid fa-paper-plane"></i></button>
         </div>
@@ -99,7 +113,6 @@ add_action('rest_api_init', function ()
         'permission_callback' => '__return_true',
     ));
 });
-
 
 function chatai_get_products() : Array
 {
